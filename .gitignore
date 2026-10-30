@@ -1,0 +1,24 @@
+# Dependencies
+node_modules/
+
+# Local configuration and secrets
+.env
+.env.*
+!.env.example
+keys/
+data/
+*.pem
+*.key
+
+# Python (sample generator)
+.venv/
+venv/
+__pycache__/
+
+# Logs, caches, OS and tool files
+*.log
+logs/
+.DS_Store
+.idea/
+.vscode/
+*.zip

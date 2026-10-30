@@ -1,0 +1,44 @@
+# Nutrient Document Engine and its PostgreSQL database for the real-time
+# review PoC. The Node server (server/) runs on the host with npm start.
+#
+#   scripts/generate-keys.sh   once: JWT key pair and API token in ./keys
+#   docker compose up -d       then cd server && npm start
+#
+# License keys and local passwords are read from .env (copy .env.example).
+# An empty license key = evaluation mode.
+
+name: nutrient-realtime-review-poc
+
+services:
+  document_engine:
+    image: pspdfkit/document-engine:1.20.0
+    # JWT_PUBLIC_KEY, API_AUTH_TOKEN and SECRET_KEY_BASE, written by scripts/generate-keys.sh.
+    env_file: ./keys/document-engine.env
+    environment:
+      # Document Engine license (activation key or offline license key). Empty = evaluation mode.
+      ACTIVATION_KEY: ${ACTIVATION_KEY:-}
+      PGUSER: de-user
+      PGPASSWORD: ${POSTGRES_PASSWORD:-change-me}
+      PGDATABASE: document-engine
+      PGHOST: db
+      PGPORT: 5432
+      DASHBOARD_USERNAME: dashboard
+      DASHBOARD_PASSWORD: ${DASHBOARD_PASSWORD:-change-me}
+      JWT_ALGORITHM: RS256
+    ports:
+      - "${DOCUMENT_ENGINE_PORT:-5310}:5000"
+    depends_on:
+      - db
+
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: de-user
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-change-me}
+      POSTGRES_DB: document-engine
+      POSTGRES_INITDB_ARGS: --data-checksums
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:

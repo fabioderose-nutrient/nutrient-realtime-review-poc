@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Contract Review</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="styles.css">
+<script src="https://cdn.cloud.pspdfkit.com/pspdfkit-web@1.24.0/nutrient-viewer.js"></script>
+</head>
+<body>
+<header id="topbar">
+  <div class="brand">
+    <strong>Contract review</strong>
+    <span id="doc-title"></span>
+  </div>
+  <div id="presence" title="Users who have the document open now"></div>
+  <button type="button" id="panel-btn" class="secondary-small" title="Show or hide the review panel">Hide panel</button>
+  <label class="user-picker">Signed in as
+    <select id="user-select"></select>
+  </label>
+</header>
+<div id="layout">
+  <main id="viewer"></main>
+  <aside id="panel">
+    <section id="me"></section>
+    <section>
+      <h2>Review status</h2>
+      <div id="overall"></div>
+      <ul id="reviews"></ul>
+      <form id="review-form" hidden>
+        <label for="review-note">Note to the author (optional)</label>
+        <textarea id="review-note" rows="2" maxlength="500"></textarea>
+        <div class="buttons">
+          <button type="button" data-status="approved" class="approve">Approve</button>
+          <button type="button" data-status="changes_requested" class="changes">Request changes</button>
+        </div>
+      </form>
+    </section>
+    <section>
+      <h2>Comment threads <span id="thread-count"></span></h2>
+      <ul id="threads"></ul>
+    </section>
+    <section id="author-tools" hidden>
+      <button type="button" id="reset-btn" class="secondary">Start a new review round</button>
+    </section>
+  </aside>
+</div>
+<script src="app.js"></script>
+</body>
+</html>
